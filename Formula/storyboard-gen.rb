@@ -1,8 +1,8 @@
 class StoryboardGen < Formula
   desc "Generate video stills and clips from a YAML storyboard using AI providers"
   homepage "https://github.com/tigger04/storyboard-gen"
-  url "https://github.com/tigger04/storyboard-gen/archive/refs/tags/v0.51.0.tar.gz"
-  sha256 "cf536d16d1bfd46f36e6e7ca9bb562fda51bdca0241a6e0604054c3e7f2fcfa3"
+  url "https://github.com/tigger04/storyboard-gen/archive/refs/tags/v0.52.0.tar.gz"
+  sha256 "0b71dcc76d79f958d0f9d565b2bb97af9a0b3043894a28439a693639821e8996"
   license "MIT"
 
   depends_on "python@3.12"
