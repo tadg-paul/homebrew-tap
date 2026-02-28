@@ -2,16 +2,17 @@
 # ABOUTME: Copy this file to tigger04/homebrew-tap/Formula/ after tagging a release.
 
 class MakeAudiobook < Formula
-  desc "Convert documents to audiobooks using Piper TTS (CLI)"
+  desc "Convert documents to audiobooks using Piper or Kokoro TTS (CLI)"
   homepage "https://github.com/tigger04/make-audiobook"
-  url "https://github.com/tigger04/make-audiobook/archive/refs/tags/v3.2.0.tar.gz"
-  sha256 "cdaab8aae959d8a0a52b05790645b78698510fcf04b6f398a1562478596951bc"
+  url "https://github.com/tigger04/make-audiobook/archive/refs/tags/v3.3.0.tar.gz"
+  sha256 "4cc5a1d96b12d61fd7206f249df9ae9a2e27cff4ebead4120670a4a0fac62eec"
   license "MIT"
   head "https://github.com/tigger04/make-audiobook.git", branch: "master"
 
   depends_on "bash" => "5.0"
   # Note: calibre is needed for .mobi support but must be installed separately as a cask:
   # brew install --cask calibre
+  depends_on "espeak" => :optional      # for Kokoro TTS engine
   depends_on "ffmpeg"
   depends_on "pandoc"
   depends_on "fzf"
@@ -69,6 +70,10 @@ class MakeAudiobook < Formula
 
       For additional voices, visit:
         https://huggingface.co/rhasspy/piper-voices
+
+      For Kokoro TTS engine (optional, higher quality):
+        brew install espeak
+        pipx install kokoro-tts
 
       For the GUI version, install the cask instead:
         brew install --cask tigger04/tap/make-audiobook
