@@ -19,7 +19,6 @@ class MakeAudiobook < Formula
   depends_on "pipx"
 
   def install
-    bin.install "make-audiobook"
     bin.install "install-dependencies"
 
     # Install shell helper scripts
@@ -27,17 +26,28 @@ class MakeAudiobook < Formula
       libexec.install "shell-and-scripting-helpers"
     end
 
-    # Install piper-voices-setup to libexec first
+    # Install scripts to libexec first
+    libexec.install "make-audiobook" => "make-audiobook.real"
     libexec.install "piper-voices-setup" => "piper-voices-setup.real"
 
-    # Create wrapper that sources helpers from correct location
+    # Create wrapper for make-audiobook that sources helpers from correct location
+    (bin/"make-audiobook").write <<~EOS
+      #!/usr/bin/env bash
+      export SHELL_HELPERS_PATH="#{libexec}/shell-and-scripting-helpers"
+      source "#{libexec}/shell-and-scripting-helpers/.qfuncs.sh"
+      source "#{libexec}/shell-and-scripting-helpers/.colours.sh"
+      exec "#{libexec}/make-audiobook.real" "$@"
+    EOS
+
+    # Create wrapper for piper-voices-setup that sources helpers from correct location
     (bin/"piper-voices-setup").write <<~EOS
       #!/usr/bin/env bash
       source "#{libexec}/shell-and-scripting-helpers/.qfuncs.sh"
       exec "#{libexec}/piper-voices-setup.real" "$@"
     EOS
 
-    # Make the wrapper executable
+    # Make the wrappers executable
+    chmod 0755, bin/"make-audiobook"
     chmod 0755, bin/"piper-voices-setup"
   end
 
