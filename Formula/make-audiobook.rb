@@ -10,7 +10,8 @@ class MakeAudiobook < Formula
   head "https://github.com/tigger04/make-audiobook.git", branch: "master"
 
   depends_on "bash" => "5.0"
-  depends_on "calibre" => :recommended  # for .mobi file support
+  # Note: calibre is needed for .mobi support but must be installed separately as a cask:
+  # brew install --cask calibre
   depends_on "ffmpeg"
   depends_on "pandoc"
   depends_on "fzf"
@@ -53,6 +54,9 @@ class MakeAudiobook < Formula
 
       To install default English voices, run:
         piper-voices-setup
+
+      For .mobi file support, install calibre:
+        brew install --cask calibre
 
       For additional voices, visit:
         https://huggingface.co/rhasspy/piper-voices
