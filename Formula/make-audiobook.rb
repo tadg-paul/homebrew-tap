@@ -23,7 +23,7 @@ class MakeAudiobook < Formula
 
     # Install shell helper scripts
     if (buildpath/"shell-and-scripting-helpers").exist?
-      libexec.install "shell-and-scripting-helpers"
+      (libexec/"shell-and-scripting-helpers").install Dir["shell-and-scripting-helpers/*"]
     end
 
     # Install scripts to libexec first
@@ -52,15 +52,14 @@ class MakeAudiobook < Formula
   end
 
   def post_install
-    ohai "Installing piper-tts via pipx..."
-    system "pipx", "install", "piper-tts"
-
+    ohai "To install piper-tts, run: pipx install piper-tts"
     ohai "To install default voices, run: piper-voices-setup"
   end
 
   def caveats
     <<~EOS
-      piper-tts has been installed via pipx.
+      To install piper-tts, run:
+        pipx install piper-tts
 
       To install default English voices, run:
         piper-voices-setup
