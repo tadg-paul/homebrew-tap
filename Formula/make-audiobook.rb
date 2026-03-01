@@ -4,8 +4,8 @@
 class MakeAudiobook < Formula
   desc "Convert documents to audiobooks using Piper or Kokoro TTS (CLI)"
   homepage "https://github.com/tigger04/make-audiobook"
-  url "https://github.com/tigger04/make-audiobook/archive/refs/tags/v3.5.0.tar.gz"
-  sha256 "99c2dd26e2d216c283f9bc3f7deee1d7de84e89ebe2626daa0cb20b63fa5dbba"
+  url "https://github.com/tigger04/make-audiobook/archive/refs/tags/v3.6.0.tar.gz"
+  sha256 "bc9328b2c2ff194d52b788b67b3e884c26e5e005be0f6070c9e4a7f7188d3485"
   license "MIT"
   head "https://github.com/tigger04/make-audiobook.git", branch: "master"
 
