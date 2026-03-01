@@ -4,8 +4,8 @@
 class MakeAudiobook < Formula
   desc "Convert documents to audiobooks using Piper or Kokoro TTS (CLI)"
   homepage "https://github.com/tigger04/make-audiobook"
-  url "https://github.com/tigger04/make-audiobook/archive/refs/tags/v3.6.0.tar.gz"
-  sha256 "bc9328b2c2ff194d52b788b67b3e884c26e5e005be0f6070c9e4a7f7188d3485"
+  url "https://github.com/tigger04/make-audiobook/archive/refs/tags/v3.7.0.tar.gz"
+  sha256 "401790c4b4e957511176daf93a74baeec154aac9d79709584ce9765b90973140"
   license "MIT"
   head "https://github.com/tigger04/make-audiobook.git", branch: "master"
 
@@ -20,36 +20,9 @@ class MakeAudiobook < Formula
   depends_on "pipx"
 
   def install
+    bin.install "make-audiobook"
+    bin.install "piper-voices-setup"
     bin.install "install-dependencies"
-
-    # Install shell helper scripts
-    if (buildpath/"shell-and-scripting-helpers").exist?
-      (libexec/"shell-and-scripting-helpers").install Dir["shell-and-scripting-helpers/*"]
-    end
-
-    # Install scripts to libexec first
-    libexec.install "make-audiobook" => "make-audiobook.real"
-    libexec.install "piper-voices-setup" => "piper-voices-setup.real"
-
-    # Create wrapper for make-audiobook that sources helpers from correct location
-    (bin/"make-audiobook").write <<~EOS
-      #!/usr/bin/env bash
-      export SHELL_HELPERS_PATH="#{libexec}/shell-and-scripting-helpers"
-      source "#{libexec}/shell-and-scripting-helpers/.qfuncs.sh"
-      source "#{libexec}/shell-and-scripting-helpers/.colours.sh"
-      exec "#{libexec}/make-audiobook.real" "$@"
-    EOS
-
-    # Create wrapper for piper-voices-setup that sources helpers from correct location
-    (bin/"piper-voices-setup").write <<~EOS
-      #!/usr/bin/env bash
-      source "#{libexec}/shell-and-scripting-helpers/.qfuncs.sh"
-      exec "#{libexec}/piper-voices-setup.real" "$@"
-    EOS
-
-    # Make the wrappers executable
-    chmod 0755, bin/"make-audiobook"
-    chmod 0755, bin/"piper-voices-setup"
   end
 
   def post_install
