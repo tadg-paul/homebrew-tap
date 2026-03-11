@@ -22,6 +22,10 @@ cask "storyboard-gen-gui" do
     Storyboard Gen GUI requires ffmpeg to be installed:
       brew install ffmpeg
 
+    At least one AI provider is required. Configure credentials in a .env
+    file in your project directory (Google, FAL.ai, or Replicate).
+    See: https://github.com/tigger04/storyboard-gen#quickstart
+
     The CLI tool is available separately:
       brew install tigger04/tap/storyboard-gen
   EOS

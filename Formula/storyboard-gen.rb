@@ -25,17 +25,21 @@ class StoryboardGen < Formula
 
   def caveats
     <<~EOS
-      storyboard-gen requires Google Cloud credentials to generate images/video.
+      storyboard-gen requires at least one AI provider. Configure credentials
+      in a .env file in your project directory:
 
-      Setup:
-        1. Install Google Cloud SDK: brew install google-cloud-sdk
-        2. Authenticate: gcloud auth application-default login
-        3. Create a .env in your project directory:
+      Google (Vertex AI — stills + clips):
+        brew install google-cloud-sdk
+        gcloud auth application-default login
+        USE_VERTEX=true
+        GOOGLE_CLOUD_PROJECT=your-project-id
+        GOOGLE_CLOUD_LOCATION=us-central1
 
-           USE_VERTEX=true
-           GOOGLE_CLOUD_PROJECT=your-project-id
-           GOOGLE_CLOUD_LOCATION=us-central1
-           GCS_OUTPUT_BUCKET=gs://your-bucket-name/
+      FAL.ai (Flux, Kontext, Kling — stills + clips):
+        FAL_KEY=your-fal-key
+
+      Replicate (Flux — stills only):
+        REPLICATE_API_TOKEN=your-replicate-token
 
       Then create a project.yaml and run:
         storyboard-gen validate
