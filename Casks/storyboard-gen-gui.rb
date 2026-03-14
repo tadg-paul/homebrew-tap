@@ -2,8 +2,8 @@
 # ABOUTME: Installs the PySide6 GUI as a standalone macOS .app bundle.
 
 cask "storyboard-gen-gui" do
-  version "0.66.0"
-  sha256 "e3990e535dd6fff0f3a628ebdb025c61427dab0fb9049153ee7519c1b636db3e"
+  version "0.67.0"
+  sha256 "b1e52036adf6caf71f0f2a12ea506a6c14fa99a25574815eee6608e782f4ad91"
 
   url "https://github.com/tigger04/storyboard-gen/releases/download/v#{version}/storyboard-gen-gui-#{version}.dmg"
   name "Storyboard Gen"
