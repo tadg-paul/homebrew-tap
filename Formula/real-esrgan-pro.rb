@@ -1,10 +1,10 @@
 class RealEsrganPro < Formula
   desc "AI image and video upscaler — CLI wrapper around Real-ESRGAN"
   homepage "https://github.com/tigger04/Real-ESRGAN"
-  url "https://github.com/tigger04/Real-ESRGAN/archive/refs/tags/v0.5.0.tar.gz"
-  sha256 "f169e0606f0771d567b3d330a2d291603df21d8540625d64ef842aa0a5acbf64"
+  url "https://github.com/tigger04/Real-ESRGAN/archive/refs/tags/v--dry-run.tar.gz"
+  sha256 "e0ea70866a96babcac94b03a8557b09522273e9971c22ecdfe0716996c857b72"
   license "BSD-3-Clause"
-  version "0.5.0"
+  version "--dry-run"
 
   depends_on "python@3.12"
   depends_on "ffmpeg"
