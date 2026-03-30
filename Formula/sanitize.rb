@@ -1,14 +1,14 @@
 class Sanitize < Formula
   desc "Fast CLI tool for converting English text to Oxford (OED) spelling"
   homepage "https://github.com/tigger04/british-english-oed-fix"
-  url "https://github.com/tigger04/british-english-oed-fix/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "da321ca7996ae89858a7a78ce614a2a990cd540e31c4b08467b423f2b78fd538"
+  url "https://github.com/tigger04/british-english-oed-fix/archive/refs/tags/v0.3.0.tar.gz"
+  sha256 "ea211b10e643c74a1357436334c90869e0e5c1b1bf1a0565c69a7bc3a661f69a"
   license "MIT"
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", "-ldflags", "-X main.version=0.2.0", "-o", bin/"sanitize", "./cmd/sanitize/"
+    system "go", "build", "-ldflags", "-X main.version=0.3.0", "-o", bin/"sanitize", "./cmd/sanitize/"
   end
 
   test do
