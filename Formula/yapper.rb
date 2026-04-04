@@ -20,12 +20,17 @@ class Yapper < Formula
   end
 
   def install
-    # Pre-resolve Swift package dependencies with Swift's sandbox disabled —
-    # Homebrew's outer sandbox prevents nested sandbox-exec calls, so
-    # xcodebuild's own package resolver fails with
-    #   sandbox-exec: sandbox_apply: Operation not permitted
-    # swift resolve writes to .build/checkouts; -clonedSourcePackagesDirPath
-    # points xcodebuild at that layout so it does not try to resolve again.
+    # Homebrew's superenv forces DEVELOPER_DIR/SDKROOT to the Command Line
+    # Tools toolchain, which breaks xcodebuild's package resolution under
+    # Xcode 26+. Restore the Xcode.app toolchain for this install step.
+    ENV["DEVELOPER_DIR"] = "/Applications/Xcode.app/Contents/Developer"
+    ENV.delete "SDKROOT"
+    ENV.delete "HOMEBREW_SDKROOT"
+
+    # Pre-resolve Swift package dependencies with Swift's sandbox disabled
+    # so the resolver runs inside Homebrew's outer sandbox. Point xcodebuild
+    # at .build/checkouts so it reuses those and does not re-resolve (which
+    # would fail with sandbox-exec: sandbox_apply: Operation not permitted).
     system "swift", "package", "resolve", "--disable-sandbox"
 
     system "xcodebuild", "build",
