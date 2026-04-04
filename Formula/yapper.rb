@@ -1,10 +1,10 @@
 class Yapper < Formula
   desc "Fast, Apple Silicon-native text-to-speech CLI and Swift library"
   homepage "https://github.com/tigger04/yapper"
-  url "https://github.com/tigger04/yapper/releases/download/v0.8.1/yapper-macos-arm64.tar.gz"
-  sha256 "ae97ebd0fac75dd28fd2b14e6c97182c76a047fb3ad506df00fd7c5de76df827"
+  url "https://github.com/tigger04/yapper/releases/download/v0.8.2/yapper-macos-arm64.tar.gz"
+  sha256 "48959c03ad92ba222827837ff12a6ccbb486bce4de9c8484cadb59fc5d533468"
   license "Apache-2.0"
-  version "0.8.1"
+  version "0.8.2"
 
   depends_on :macos
   depends_on arch: :arm64
@@ -47,8 +47,8 @@ class Yapper < Formula
 
   def caveats
     <<~EOS
-      Yapper ships as a prebuilt Apple Silicon binary, ad-hoc code signed
-      (not yet notarised — tracked in issue #13).
+      Yapper ships as a prebuilt Apple Silicon binary, Developer ID signed
+      with hardened runtime and notarised by Apple.
 
       Model weights and English voices are downloaded automatically at install
       time from the tigger04/yapper models-v1 release (Apache 2.0, redistributed
@@ -63,6 +63,6 @@ class Yapper < Formula
   end
 
   test do
-    assert_match "0.8.1", shell_output("#{bin}/yapper --version")
+    assert_match "0.8.2", shell_output("#{bin}/yapper --version")
   end
 end
