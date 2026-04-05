@@ -1,10 +1,10 @@
 class Yapper < Formula
   desc "Fast, Apple Silicon-native text-to-speech CLI and Swift library"
   homepage "https://github.com/tigger04/yapper"
-  url "https://github.com/tigger04/yapper/releases/download/v0.8.4/yapper-macos-arm64.tar.gz"
-  sha256 "eb10861dfc4f567c48eea5dceaa27a101fb7c3658c002492c78951dd26003f52"
+  url "https://github.com/tigger04/yapper/releases/download/v0.8.5/yapper-macos-arm64.tar.gz"
+  sha256 "b6c021c7cbbf9ba86e8b1d9f1be7080dcfb327ba304030e95ac8f27e3dcaaca8"
   license "Apache-2.0"
-  version "0.8.4"
+  version "0.8.5"
 
   depends_on :macos
   depends_on arch: :arm64
@@ -22,17 +22,33 @@ class Yapper < Formula
 
   def install
     # Prebuilt Developer-ID signed binary and its Swift resource bundles go into
-    # libexec. Both bin entries are symlinks to the same Mach-O — macOS's
-    # _NSGetExecutablePath resolves through symlinks, so Bundle.main lookups find
-    # the .bundle directories sitting next to libexec/yapper. The binary inspects
-    # CommandLine.arguments[0] at startup and, when invoked via the `yap` symlink,
-    # prepends `speak` to the argument list so `yap "text"` behaves as
+    # libexec. bin/yapper and bin/yap are wrapper scripts that `exec` the real
+    # libexec/yapper binary — NOT symlinks. On modern macOS, Bundle.main.bundleURL
+    # (which MLX uses to locate default.metallib and other resource bundles) is
+    # derived from the *invocation* path, not from the symlink target. A symlink
+    # at bin/yapper would make Bundle.main look for the .bundle resources in bin/
+    # instead of libexec/, and synthesis would fail at runtime with
+    # "Failed to load the default metallib".
+    #
+    # `exec` ensures the parent shell is replaced so signals and exit codes
+    # propagate cleanly. `exec -a yap` on the yap wrapper sets argv[0]="yap" so
+    # the binary's own argv[0] dispatch (in Sources/yapper/Yapper.swift) routes
+    # to the speak subcommand automatically — making `yap "text"` behave as
     # `yapper speak "text"`.
     libexec.install "yapper"
     libexec.install Dir["*.bundle"]
 
-    bin.install_symlink libexec/"yapper" => "yapper"
-    bin.install_symlink libexec/"yapper" => "yap"
+    (bin/"yapper").write <<~SH
+      #!/bin/bash
+      exec "#{libexec}/yapper" "$@"
+    SH
+    (bin/"yapper").chmod 0755
+
+    (bin/"yap").write <<~SH
+      #!/bin/bash
+      exec -a yap "#{libexec}/yapper" "$@"
+    SH
+    (bin/"yap").chmod 0755
 
     (share/"yapper/models").mkpath
     (share/"yapper/voices").mkpath
@@ -64,6 +80,6 @@ class Yapper < Formula
   end
 
   test do
-    assert_match "0.8.4", shell_output("#{bin}/yapper --version")
+    assert_match "0.8.5", shell_output("#{bin}/yapper --version")
   end
 end
